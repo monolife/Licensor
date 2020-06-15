@@ -10,7 +10,7 @@ import(
 	"path"
 	"strings"
 
-	prep "dzynetech.com/licenser/prepender"
+	prep "dzynetech.com/licensor/prepender"
 )
 
 var slogger *zap.SugaredLogger;

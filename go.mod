@@ -1,4 +1,4 @@
-module dzynetech.com/licenser
+module dzynetech.com/licensor
 
 go 1.14
 
