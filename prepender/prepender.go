@@ -38,8 +38,7 @@ func (doc *Doc) AlreadyPrepended( preText []string)( isAlready bool, err error){
 	scanner := bufio.NewScanner(f)
 	for _, preLine := range preText {
 		scanner.Scan();
-		docLine := scanner.Text(); 
-		log.Println("Comparing: ", docLine, " & ", preLine )
+		docLine := scanner.Text();
     if(preLine != docLine){
     	isAlready = false;
     	break;
@@ -83,13 +82,13 @@ func (doc *Doc) Prepend( preText []string)(err error){
 
 	_, err = io.Copy(out, document)
 	if err != nil {
-		log.Println("Error! failed to append orignal file to output:", err);
+		log.Println("Error! Failed to append orignal file to output:", err);
 		return;
 	}
 	// log.Printf("wrote %d bytes of %s to %s\n", n, doc.Path+".bak", doc.Path)
 
 	if err = os.Rename(doc.Path+".bak", doc.Path); err != nil{
-		log.Println("Could not replace source file with prepended:", err);
+		log.Println("Error! Could not replace source file with prepended:", err);
 		return;
 	}
 

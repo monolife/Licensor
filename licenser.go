@@ -17,14 +17,18 @@ var slogger *zap.SugaredLogger;
 
 func main(){
 
-	logger, _ := zap.NewDevelopment()
+	// --- 0. Parse inputs
+	fileDir := flag.String("s", "./testDir", "Directory of files to prepend with licenses (recursive)");
+	licenseDir := flag.String("l", "./LicenseFiles", "Directory of license files where filename format is <extension>.license (ex. cpp.license)");
+	debugMode := flag.Bool("d", false, "Flag for debug mode with verbose and prettier output");
+	flag.Parse()
+
+	logger, _ := zap.NewProduction();
+	if(*debugMode){
+		logger, _ = zap.NewDevelopment();
+	}
 	defer logger.Sync() // flushes buffer, if any
 	slogger = logger.Sugar()
-
-	// --- 0. Parse inputs
-	fileDir := flag.String("d", "./testDir", "Directory of files to prepend with licenses (recursive)");
-	licenseDir := flag.String("l", "./LicenseFiles", "Directory of license files where filename format is <extension>.license (ex. cpp.license)");
-	flag.Parse()
 
 	// --- 1. Load license files
 	licenses, err := LoadLicenses( licenseDir );
@@ -69,7 +73,7 @@ func LoadLicenses(licDirPath *string)( licenses []prep.Doc, err error){
 			return;
 		}else{
 			license.Type = "."+FilenameWithoutExtension(filepath.Base(path));
-			slogger.Debugw("Adding license",
+			slogger.Infow("Adding license",
 				"type", license.Type,
 				"path", license.Path);
 			licenses = append(licenses, license);
